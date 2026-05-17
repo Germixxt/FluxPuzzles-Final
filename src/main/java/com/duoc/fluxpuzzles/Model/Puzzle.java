@@ -1,45 +1,32 @@
 package com.duoc.fluxpuzzles.Model;
-import jakarta.persistence.Column;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-
 @Table(name = "puzzles")
-
 public class Puzzle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    @OneToOne
-    @JoinColumn(name = "id_usuario_creador", referencedColumnName = "id")
-    public Usuario creador;
+    @OneToOne(optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
-    @OneToMany
-    private List<Solucion> soluciones;
-
-    @NotBlank(message = "debe ingresar el nombre del puzzle")
-    @Column(unique = true)
     private String nombrePuzzle;
-
-    @NotBlank(message = "debe colocar una descripcion")
     private String descripcion;
-
-    @NotBlank(message = "debe ingresar la dificultad")
     private String dificultad;
-
-
-    private boolean activo = true; // Atributo para el borrado lógico
 }

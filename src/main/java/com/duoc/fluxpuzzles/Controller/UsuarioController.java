@@ -2,44 +2,60 @@ package com.duoc.fluxpuzzles.Controller;
 
 import com.duoc.fluxpuzzles.Model.Usuario;
 import com.duoc.fluxpuzzles.Service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuarios") // Esta será la URL base: localhost:8080/usuarios
+@RequestMapping("/api/v1/usuarios")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
-    // 1. Endpoint para obtener todos los activos
-    @GetMapping("/listar")
-    public List<Usuario> listarUsuarios() {
-        return usuarioService.obtenerTodosActivos();
+    @GetMapping
+    public ResponseEntity<List<Usuario>> getUsuarios() {
+        System.out.println("[UsuarioController] -> getUsuarios");
+        List<Usuario> usuarios = usuarioService.getUsuarios();
+        return ResponseEntity.ok(usuarios);
     }
 
-    // 2. Endpoint para registrar un nuevo usuario
-    @PostMapping("/registrar")
-    public ResponseEntity<?> registrar(@RequestBody Usuario usuario) {
-        try {
-            Usuario nuevo = usuarioService.registrarUsuario(usuario);
-            return ResponseEntity.ok(nuevo);
-        } catch (Exception e) {
-            // Si el service lanza error (correo duplicado, edad, etc.), lo capturamos aquí
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @PostMapping
+    public ResponseEntity<Usuario> saveUsuario(@Valid @RequestBody Usuario usuario) {
+        System.out.println("[UsuarioController] -> saveUsuario");
+        Usuario nuevoUsuario = usuarioService.saveUsuario(usuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
     }
 
-    // 3. Endpoint para borrar (lógico)
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<String> eliminar(@PathVariable int id) {
-        boolean eliminado = usuarioService.eliminarLogicamente(id);
-        if (eliminado) {
-            return ResponseEntity.ok("Usuario desactivado correctamente.");
-        } else {
-            return ResponseEntity.notFound().build();
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> getUsuarioId(@PathVariable Integer id) {
+        System.out.println("[UsuarioController] -> getUsuarioId");
+        Usuario usuario = usuarioService.getUsuarioId(id);
+        if (usuario != null) {
+            return ResponseEntity.ok(usuario);
         }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable Integer id, @Valid @RequestBody Usuario usuario) {
+        System.out.println("[UsuarioController] -> updateUsuario");
+        usuario.setId(id);
+        Usuario usuarioActualizado = usuarioService.updateUsuario(usuario);
+        if (usuarioActualizado != null) {
+            return ResponseEntity.ok(usuarioActualizado);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Integer id) {
+        System.out.println("[UsuarioController] -> deleteUsuario");
+        usuarioService.deleteUsuario(id);
+        return ResponseEntity.noContent().build();
     }
 }
