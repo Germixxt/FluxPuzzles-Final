@@ -1,0 +1,250 @@
+{
+  "info": {
+    "_postman_id": "8f29c0c4-a9ed-4cc7-91c1-9f6ea6e1cf99",
+    "name": "FluxPuzzles API",
+    "description": "Colección oficial de endpoints para el proyecto fluxpuzzles (Producción Académica).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "usuarios"]
+            },
+            "description": "Retorna todos los usuarios de la base de datos."
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar usuario por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "usuarios", "1"]
+            },
+            "description": "Busca un usuario específico por su id."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear usuario",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"German Felipe Letelier\",\n  \"edad\": 25,\n  \"correo\": \"felipe@move.cl\",\n  \"username\": \"fletelier\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "usuarios"]
+            },
+            "description": "Crea un nuevo usuario en el sistema. Guarda el id que devuelva para asociarlo a los puzzles."
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar usuario",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"German Felipe Letelier Muñoz\",\n  \"edad\": 25,\n  \"correo\": \"felipe@move.cl\",\n  \"username\": \"fletelier\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "usuarios", "1"]
+            },
+            "description": "Actualiza los datos de un usuario existente por su id."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "usuarios", "1"]
+            },
+            "description": "Elimina un usuario por su id."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Puzzles",
+      "item": [
+        {
+          "name": "Listar puzzles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/puzzles",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "puzzles"]
+            },
+            "description": "Retorna todos los puzzles almacenados."
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar puzzle por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/puzzles/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "puzzles", "1"]
+            },
+            "description": "Busca un puzzle por su id."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear puzzle",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombrePuzzle\": \"Laberinto de Fuego\",\n  \"descripcion\": \"Un puzzle de lógica infernal\",\n  \"dificultad\": \"Experto\",\n  \"usuario\": {\n    \"id\": 1\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/puzzles",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "puzzles"]
+            },
+            "description": "Crea un puzzle nuevo. El campo usuario.id debe corresponder a un usuario existente en la base de datos."
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar puzzle",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombrePuzzle\": \"Laberinto de Fuego V2\",\n  \"descripcion\": \"Un puzzle de lógica infernal modificado\",\n  \"dificultad\": \"Pesadilla\",\n  \"usuario\": {\n    \"id\": 1\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/puzzles/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "puzzles", "1"]
+            },
+            "description": "Actualiza un puzzle existente por su id."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar puzzle",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/puzzles/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "puzzles", "1"]
+            },
+            "description": "Elimina un puzzle por su id."
+          },
+          "response": []
+        },
+        {
+          "name": "Puzzles con creador (DTO)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/puzzles/con-creador",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "puzzles", "con-creador"]
+            },
+            "description": "Retorna una lista filtrada usando un DTO proyectado (PuzzleCreadorDTO). Muestra solo el nombre del puzzle y el nombre de su creador, protegiendo datos sensibles."
+          },
+          "response": []
+        },
+        {
+          "name": "[TEST] Error controlado por GlobalExceptionHandler",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/puzzles/test-error",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "puzzles", "test-error"]
+            },
+            "description": "Endpoint de prueba para demostrar el funcionamiento del interceptor global de excepciones de nuestra API."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reto Diario (JSONPlaceholder)",
+      "item": [
+        {
+          "name": "Obtener Reto Diario por defecto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reto-diario",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reto-diario"]
+            },
+            "description": "Consume la API externa de JSONPlaceholder usando WebClient de manera síncrona con el ID predeterminado."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Reto Diario por ID personalizado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reto-diario",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "reto-diario"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "ID del post externo a consultar (ej: 1, 2, 3...)"
+                }
+              ]
+            },
+            "description": "Busca un post específico en la API externa pasándole el ID como query parameter."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}

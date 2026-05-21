@@ -1,18 +1,41 @@
-FluxPuzzles - API REST con Spring Boot + JPA + MySQL
+# FluxPuzzles - API REST con Spring Boot + JPA + MySQL
 
-Proyecto a nivel de producción para aprender arquitectura por capas con Spring Boot, desarrollado para la gestión de puzzles y usuarios.
+## 1. Capas de modelo 
 
-controller (capa web / endpoints REST)
+* **controller (capa web / endpoints REST**)
 
-service (lógica de negocio)
+* **service (lógica de negocio)**
 
-repository (acceso a datos con JPA / Hibernate)
+* **repository (acceso a datos con JPA / Hibernate)**
 
-model (entidades JPA / estructura de datos)
+* **model (entidades JPA / estructura de datos)**
 
-dto (objetos de transferencia de datos)
+* **dto (objetos de transferencia de datos)**
 
-1) Requisitos
+## 1.1 Estructura del directorio   
+Plaintext
+src/main/java/com/duoc/fluxpuzzles/
+├── config/           ← Configuración de WebClient
+├── Controller/       ← Presentación / API REST
+├── dto/              ← Objetos de transferencia de datos
+├── exception/        ← Manejo global de errores (ControllerAdvice)
+├── Model/            ← Entidades JPA
+├── Repository/       ← Interfaces Spring Data JPA
+└── Service/          ← Lógica de negocio
+
+* **Controller**
+Recibe las peticiones HTTP. Utiliza anotaciones como @RestController, @RequestMapping, @GetMapping, @PostMapping, @RequestBody, y delega la lógica a los Services inyectados con @Autowired.
+
+* **Service**
+Centraliza reglas de negocio y coordina el acceso al repositorio. Utiliza @Service para ser detectado por Spring.
+
+* **Repository**
+Interfaces que extienden JpaRepository<T, ID>. Generan automáticamente la implementación de métodos CRUD (findAll, findById, save, deleteById) traduciendo llamadas a comandos SQL a través de Hibernate.
+
+* **Model**
+Entidades que representan las tablas de la base de datos (e.g., Puzzle y Usuario). Utilizan @Entity, @Id, y anotaciones de Lombok (@Data, @AllArgsConstructor, @NoArgsConstructor) para evitar código boilerplate.
+
+## 2. Requisitos
 Java 17+
 Maven (opcional si usas mvnw)
 MySQL corriendo en localhost:3306 (usuario root, sin contraseña)
@@ -21,7 +44,7 @@ Postman (opcional para probar la API)
 
 Nota: Hibernate crea automáticamente las tablas puzzles y usuarios al iniciar la aplicación (ddl-auto=update). No es necesario crearlas manualmente en Laragon/MySQL.
 
-2) Configuración de base de datos
+## 3. Configuración de base de datos
 El archivo src/main/resources/application.properties contiene la conexión:
 
 Properties
@@ -31,15 +54,7 @@ spring.datasource.password=
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
-# API Externa (Reto Diario)
-jsonplaceholder.base-url=https://jsonplaceholder.typicode.com
-createDatabaseIfNotExist=true → crea la base de datos fluxpuzzles automáticamente si no existe.
-
-ddl-auto=update → Hibernate actualiza el esquema automáticamente según las entidades Puzzle y Usuario.
-
-show-sql=true → muestra las consultas SQL generadas en la consola.
-
-3) ¿Cómo ejecutar el proyecto?
+## 4. ¿Cómo ejecutar el proyecto?
 Opción A: usando Maven Wrapper (recomendado)
 Desde la carpeta raíz del proyecto (Fluxpuzzles):
 En Windows (PowerShell / CMD):
@@ -53,7 +68,7 @@ Bash
 .\mvnw clean package
 java -jar target/fluxpuzzles-0.0.1-SNAPSHOT.jar
 
-4) URL base de la API
+## 5. URL base de la API
 Por defecto Spring Boot levanta en el puerto 8080:
 http://localhost:8080
 
@@ -61,21 +76,25 @@ Base paths de los controladores:
 /api/v1/puzzles
 /api/v1/usuarios
 /api/v1/reto-diario
+### 5.1 Endpoints de Puzzles
+Listar puzzles (GET)
+Buscar puzzle por ID (GET)
+Crear puzzle (POST)
+Actualizar puzzle (PUT)
+Eliminar puzzle (DELETE)
 
-5) Endpoints disponibles (Ejemplo: Puzzles)
-
-5.1 Listar puzzles
+### 5.2 Listar puzzles
 Método: GET
 URL: /api/v1/puzzles
 Descripción: Retorna todos los puzzles almacenados en la base de datos.
 
-5.2 Buscar puzzle por ID
+### 5.3 Buscar puzzle por ID
 
 Método: GET
 URL: /api/v1/puzzles/{id}
 Descripción: Retorna un puzzle específico por su id.
 
-5.3 Crear puzzle
+### 5.4 Crear puzzle
 
 Método: POST
 URL: /api/v1/puzzles
@@ -91,7 +110,7 @@ JSON
 }
 
 
-5.4 Actualizar puzzle
+### 5.5 Actualizar puzzle
 
 Método: PUT
 URL: /api/v1/puzzles/{id}
@@ -108,14 +127,14 @@ JSON
         "id": 1
     }
 }
-5.5 Eliminar puzzle
+### 5.6 Eliminar puzzle
 Método: DELETE
 
 URL: /api/v1/puzzles/{id}
 
 Descripción: Elimina un puzzle por id.
 
-5.6 Listar puzzles con creador (Cruce de Tablas / DTO)
+### 5.7 Listar puzzles con creador (Cruce de Tablas / DTO)
 Método: GET
 
 URL: /api/v1/puzzles/con-creador
@@ -142,34 +161,8 @@ puzzleRepository.findAll().stream()
             p.getUsuario().getNombre()
     ))
     .toList();
-    
-6) Estructura del proyecto y explicación por capas
 
-   
-Plaintext
-src/main/java/com/duoc/fluxpuzzles/
-├── config/           ← Configuración de WebClient
-├── Controller/       ← Presentación / API REST
-├── dto/              ← Objetos de transferencia de datos
-├── exception/        ← Manejo global de errores (ControllerAdvice)
-├── Model/            ← Entidades JPA
-├── Repository/       ← Interfaces Spring Data JPA
-└── Service/          ← Lógica de negocio
-
-6.1 Controller
-Recibe las peticiones HTTP. Utiliza anotaciones como @RestController, @RequestMapping, @GetMapping, @PostMapping, @RequestBody, y delega la lógica a los Services inyectados con @Autowired.
-
-6.2 Service
-Centraliza reglas de negocio y coordina el acceso al repositorio. Utiliza @Service para ser detectado por Spring.
-
-6.3 Repository
-Interfaces que extienden JpaRepository<T, ID>. Generan automáticamente la implementación de métodos CRUD (findAll, findById, save, deleteById) traduciendo llamadas a comandos SQL a través de Hibernate.
-
-6.4 Model
-Entidades que representan las tablas de la base de datos (e.g., Puzzle y Usuario). Utilizan @Entity, @Id, y anotaciones de Lombok (@Data, @AllArgsConstructor, @NoArgsConstructor) para evitar código boilerplate.
-
-
-7) Dependencias principales (pom.xml)
+## 7. Dependencias principales (pom.xml)
 
    
 spring-boot-starter-web: Para construir la API REST.
@@ -178,7 +171,7 @@ spring-boot-starter-validation: Soporte para @Valid, @NotNull, @NotBlank.
 spring-boot-starter-webflux: Para utilizar WebClient y consumir APIs externas.
 lombok: Para auto-generar getters, setters y constructores.
 
-8) Manejador global de errores (@ControllerAdvice)
+### 8 Manejador global de errores (@ControllerAdvice)
 
    
 La aplicación utiliza GlobalExceptionHandler para centralizar la gestión de excepciones, evitando bloques try-catch repetitivos.
@@ -195,7 +188,7 @@ JSON
 }
 
 
-9) WebClient y consumo de APIs externas
+## 9. WebClient y consumo de APIs externas
 
     
 Se implementó WebClient (parte de Spring WebFlux) para consumir la API externa JSONPlaceholder de forma síncrona.
@@ -213,10 +206,16 @@ Cliente → GET /api/v1/reto-diario?id=1
           ↳ Retorna JSON → Mapea a ExternalApiDTO
             ↳ Retorna 200 OK al Cliente
 
-            
-10) Autores
+### 9.1 API Externa (Reto Diario)
+jsonplaceholder.base-url=https://jsonplaceholder.typicode.com
+createDatabaseIfNotExist=true → crea la base de datos fluxpuzzles automáticamente si no existe.
+
+ddl-auto=update → Hibernate actualiza el esquema automáticamente según las entidades Puzzle y Usuario.
+
+show-sql=true → muestra las consultas SQL generadas en la consola.            
+## 10. Autores
 German Felipe Letelier Muñoz
 Michael Ciudad
 Erick Villagran
-Desarrollador y Fundador de Tecnologías Move SpA
+
 Asignatura de Programación Full Stack.
