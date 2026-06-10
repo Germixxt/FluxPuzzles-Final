@@ -24,4 +24,6 @@ public class Usuario {
     private Integer edad;
     private String correo;
     private String username;
+    private String password;
+    private String role;
 }

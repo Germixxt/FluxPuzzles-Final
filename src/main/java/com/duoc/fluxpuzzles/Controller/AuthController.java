@@ -1,10 +1,10 @@
-package com.example.bibliotecaduoc.controller;
+package com.duoc.fluxpuzzles.Controller;
 
-import com.example.bibliotecaduoc.dto.AuthRequest;
-import com.example.bibliotecaduoc.dto.AuthResponse;
-import com.example.bibliotecaduoc.model.Usuario;
-import com.example.bibliotecaduoc.repository.UsuarioRepository;
-import com.example.bibliotecaduoc.security.JwtUtil;
+import com.duoc.fluxpuzzles.dto.AuthRequest;
+import com.duoc.fluxpuzzles.dto.AuthResponse;
+import com.duoc.fluxpuzzles.Model.Usuario;
+import com.duoc.fluxpuzzles.Repository.UsuarioRepository;
+import com.duoc.fluxpuzzles.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,5 @@
-package com.example.bibliotecaduoc.security;
+package com.duoc.fluxpuzzles.security;
+
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

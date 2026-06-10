@@ -1,7 +1,9 @@
-package com.example.bibliotecaduoc.security;
+package com.duoc.fluxpuzzles.security;
 
-import com.example.bibliotecaduoc.model.Usuario;
-import com.example.bibliotecaduoc.repository.UsuarioRepository;
+
+import com.duoc.fluxpuzzles.Model.Usuario;
+import com.duoc.fluxpuzzles.Repository.UsuarioRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -10,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * Implementación de UserDetailsService requerida por Spring Security.
@@ -34,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new User(
                 usuario.getUsername(),
                 usuario.getPassword(),
-                List.of(new SimpleGrantedAuthority(usuario.getRole()))
+                Arrays.asList(new SimpleGrantedAuthority(usuario.getRole()))
         );
     }
 }

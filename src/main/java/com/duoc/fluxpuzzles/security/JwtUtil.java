@@ -1,4 +1,4 @@
-package com.example.bibliotecaduoc.security;
+package com.duoc.fluxpuzzles.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
