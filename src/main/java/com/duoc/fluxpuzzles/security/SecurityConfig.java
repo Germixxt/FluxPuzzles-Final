@@ -15,13 +15,19 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Configuración central de Spring Security.
- *
- * Define:
- * - Qué rutas son públicas y cuáles requieren autenticación.
- * - Qué rol puede acceder a cada tipo de operación.
- * - Sessión stateless (sin cookies de sesión, solo JWT).
- * - Registro del JwtFilter en la cadena de filtros.
+ * CONFIGURACIÓN CENTRAL DE SPRING SECURITY
+ * 
+ * Responsabilidades:
+ * 1. Definir qué rutas son públicas y cuáles requieren JWT
+ * 2. Establecer roles y permisos por método HTTP
+ * 3. Configurar seguridad stateless (sin sesiones en servidor)
+ * 4. Registrar JwtFilter en la cadena de filtros
+ * 5. Configurar BCrypt para encriptación de contraseñas
+ * 
+ * Modelo de acceso:
+ * - ROLE_USER: solo lectura (GET)
+ * - ROLE_ADMIN: acceso total (GET, POST, PUT, DELETE)
+ * - /api/v1/auth/**: público (sin autenticación)
  */
 @Configuration
 @EnableWebSecurity
