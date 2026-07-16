@@ -28,7 +28,8 @@ public class JwtUtil {
     /** Duración del token: 24 horas en milisegundos. */
     private static final long EXPIRATION_MS = 86_400_000L;
 
-    public JwtUtil(@Value("${jwt.secret}") String secret) {
+    // ✅ CAMBIO AQUÍ: ahora lee directamente la variable de entorno JWT_SECRET
+    public JwtUtil(@Value("${JWT_SECRET}") String secret) {
         // La clave debe tener al menos 32 caracteres (256 bits) para HMAC-SHA256
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
